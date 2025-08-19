@@ -96,6 +96,8 @@ export interface App {
   vercelProjectName: string | null;
   vercelTeamSlug: string | null;
   vercelDeploymentUrl: string | null;
+  installCommand: string | null;
+  startCommand: string | null;
 }
 
 export interface Version {
@@ -226,6 +228,8 @@ export interface ApproveProposalResult {
 export interface ImportAppParams {
   path: string;
   appName: string;
+  installCommand?: string;
+  startCommand?: string;
 }
 
 export interface CopyAppParams {
@@ -347,6 +351,26 @@ export interface UploadFileToCodebaseParams {
 export interface UploadFileToCodebaseResult {
   success: boolean;
   filePath: string;
+}
+
+// --- Prompts ---
+export interface PromptDto {
+  id: number;
+  title: string;
+  description: string | null;
+  content: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface CreatePromptParamsDto {
+  title: string;
+  description?: string;
+  content: string;
+}
+
+export interface UpdatePromptParamsDto extends CreatePromptParamsDto {
+  id: number;
 }
 
 export interface FileAttachment {
