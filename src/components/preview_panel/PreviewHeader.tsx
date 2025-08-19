@@ -5,6 +5,7 @@ import { IpcClient } from "@/ipc/ipc_client";
 import {
   Eye,
   Code,
+  Sparkles,
   MoreVertical,
   Cog,
   Trash2,
@@ -36,6 +37,7 @@ import { isPreviewOpenAtom } from "@/atoms/viewAtoms";
 export type PreviewMode =
   | "preview"
   | "code"
+  | "ezcode"
   | "problems"
   | "configure"
   | "publish";
@@ -50,6 +52,7 @@ export const PreviewHeader = () => {
   const selectedAppId = useAtomValue(selectedAppIdAtom);
   const previewRef = useRef<HTMLButtonElement>(null);
   const codeRef = useRef<HTMLButtonElement>(null);
+  const ezCodeRef = useRef<HTMLButtonElement>(null);
   const problemsRef = useRef<HTMLButtonElement>(null);
   const configureRef = useRef<HTMLButtonElement>(null);
   const publishRef = useRef<HTMLButtonElement>(null);
@@ -128,6 +131,9 @@ export const PreviewHeader = () => {
           break;
         case "code":
           targetRef = codeRef;
+          break;
+        case "ezcode":
+          targetRef = ezCodeRef;
           break;
         case "problems":
           targetRef = problemsRef;
@@ -241,6 +247,13 @@ export const PreviewHeader = () => {
             <Code size={14} />,
             "Code",
             "code-mode-button",
+          )}
+          {renderButton(
+            "ezcode",
+            ezCodeRef,
+            <Sparkles size={14} />,
+            "Ez Code",
+            "ezcode-mode-button",
           )}
           {renderButton(
             "configure",

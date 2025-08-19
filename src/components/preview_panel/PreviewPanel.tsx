@@ -7,6 +7,7 @@ import {
 } from "../../atoms/appAtoms";
 
 import { CodeView } from "./CodeView";
+import { EzCodeView } from "./EzCodeView";
 import { PreviewIframe } from "./PreviewIframe";
 import { Problems } from "./Problems";
 import { ConfigurePanel } from "./ConfigurePanel";
@@ -115,6 +116,8 @@ export function PreviewPanel() {
                 <PreviewIframe key={key} loading={loading} />
               ) : previewMode === "code" ? (
                 <CodeView loading={loading} app={app} />
+              ) : previewMode === "ezcode" ? (
+                <EzCodeView loading={loading} app={app} />
               ) : previewMode === "configure" ? (
                 <ConfigurePanel />
               ) : previewMode === "publish" ? (
