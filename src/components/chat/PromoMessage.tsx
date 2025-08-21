@@ -196,21 +196,22 @@ export const GITHUB_TIP: MessageConfig = {
     },
   ],
 };
+//Rework message
+export const Rework_TIP: MessageConfig = {
+  spans: [
+    {
+      type: "text",
+      content: "Rework have hundreds of services to help your business grow.",
+    },
+    {
+      type: "link",
+      content: "Rework.com",
+      url: "https://rework.com/",
+    },
+  ],
+};
 // Array of all available messages for rotation
-const ALL_MESSAGES = [
-  TURBO_EDITS_PROMO_MESSAGE,
-  SMART_CONTEXT_PROMO_MESSAGE,
-  DIFFERENT_MODEL_TIP,
-  REDDIT_TIP,
-  REPORT_A_BUG_TIP,
-  UPLOAD_CHAT_TIP,
-  BUILD_A_BIBLE_APP_TIP,
-  DEBUGGING_TIPS_TIP,
-  AI_RULES_TIP,
-  NEW_CHAT_TIP,
-  ROADMAP_TIP,
-  GITHUB_TIP,
-];
+const ALL_MESSAGES = [Rework_TIP];
 
 // Main PromoMessage component using the modular system
 export function PromoMessage({ seed }: { seed: number }) {
