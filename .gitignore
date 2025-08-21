@@ -101,3 +101,5 @@ out/
 sqlite.db
 userData/
 .env.local
+CLAUDE.md
+.vs/
