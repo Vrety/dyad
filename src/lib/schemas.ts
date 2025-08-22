@@ -181,6 +181,10 @@ export const UserSettingsSchema = z.object({
   enableProSaverMode: z.boolean().optional(),
   dyadProBudget: DyadProBudgetSchema.optional(),
   runtimeMode: RuntimeModeSchema.optional(),
+  // Rework.com integration settings
+  reworkApiUrl: z.string().optional(),
+  reworkAccessToken: z.string().optional(),
+  reworkPassword: z.string().optional(),
 });
 
 /**

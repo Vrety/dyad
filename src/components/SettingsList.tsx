@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 const SETTINGS_SECTIONS = [
   { id: "general-settings", label: "General" },
   { id: "workflow-settings", label: "Workflow" },
+  { id: "rework-settings", label: "Rework.com" },
   { id: "ai-settings", label: "AI" },
   { id: "provider-settings", label: "Model Providers" },
   { id: "telemetry", label: "Telemetry" },

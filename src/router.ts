@@ -2,6 +2,8 @@ import { createRouter } from "@tanstack/react-router";
 import { rootRoute } from "./routes/root";
 import { homeRoute } from "./routes/home";
 import { chatRoute } from "./routes/chat";
+import { servicesRoute } from "./routes/services";
+import { serviceDetailRoute } from "./routes/services/$serviceId";
 import { settingsRoute } from "./routes/settings";
 import { providerSettingsRoute } from "./routes/settings/providers/$provider";
 import { appDetailsRoute } from "./routes/app-details";
@@ -13,6 +15,7 @@ const routeTree = rootRoute.addChildren([
   hubRoute,
   libraryRoute,
   chatRoute,
+  servicesRoute.addChildren([serviceDetailRoute]),
   appDetailsRoute,
   settingsRoute.addChildren([providerSettingsRoute]),
 ]);

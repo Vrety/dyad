@@ -5,8 +5,9 @@ import {
   HelpCircle,
   Store,
   BookOpen,
+  Database,
 } from "lucide-react";
-import { Link, useRouterState } from "@tanstack/react-router";
+import { Link, useRouterState, useNavigate } from "@tanstack/react-router";
 import { useSidebar } from "@/components/ui/sidebar"; // import useSidebar hook
 import { useEffect, useState, useRef } from "react";
 import { useAtom } from "jotai";
@@ -28,6 +29,7 @@ import { ChatList } from "./ChatList";
 import { AppList } from "./AppList";
 import { HelpDialog } from "./HelpDialog"; // Import the new dialog
 import { SettingsList } from "./SettingsList";
+import { ServicesList } from "./ServicesList";
 
 // Menu items.
 const items = [
@@ -40,6 +42,11 @@ const items = [
     title: "Chat",
     to: "/chat",
     icon: Inbox,
+  },
+  {
+    title: "Services",
+    to: "/services",
+    icon: Database,
   },
   {
     title: "Settings",
@@ -58,60 +65,63 @@ const items = [
   },
 ];
 
-// Hover state types
-type HoverState =
-  | "start-hover:app"
-  | "start-hover:chat"
-  | "start-hover:settings"
-  | "start-hover:library"
-  | "clear-hover"
-  | "no-hover";
+// Click state types
+type ClickState =
+  | "Apps"
+  | "Chat"
+  | "Services"
+  | "Settings"
+  | "Library"
+  | null;
 
 export function AppSidebar() {
   const { state, toggleSidebar } = useSidebar(); // retrieve current sidebar state
-  const [hoverState, setHoverState] = useState<HoverState>("no-hover");
-  const expandedByHover = useRef(false);
+  const [selectedMenuItem, setSelectedMenuItem] = useState<ClickState>(null);
+  const expandedByClick = useRef(false);
   const [isHelpDialogOpen, setIsHelpDialogOpen] = useState(false); // State for dialog
   const [isDropdownOpen] = useAtom(dropdownOpenAtom);
 
   useEffect(() => {
-    if (hoverState.startsWith("start-hover") && state === "collapsed") {
-      expandedByHover.current = true;
+    if (selectedMenuItem && state === "collapsed") {
+      expandedByClick.current = true;
       toggleSidebar();
     }
-    if (
-      hoverState === "clear-hover" &&
-      state === "expanded" &&
-      expandedByHover.current &&
-      !isDropdownOpen
-    ) {
-      toggleSidebar();
-      expandedByHover.current = false;
-      setHoverState("no-hover");
+  }, [selectedMenuItem, toggleSidebar, state]);
+
+  const handleMenuItemClick = (item: ClickState) => {
+    if (selectedMenuItem === item) {
+      // Clicking the same item - collapse if expanded by click
+      if (state === "expanded" && expandedByClick.current) {
+        toggleSidebar();
+        expandedByClick.current = false;
+      }
+      setSelectedMenuItem(null);
+    } else {
+      // Clicking a different item - show its submenu
+      setSelectedMenuItem(item);
+      if (state === "collapsed") {
+        expandedByClick.current = true;
+      }
     }
-  }, [hoverState, toggleSidebar, state, setHoverState, isDropdownOpen]);
+  };
 
   const routerState = useRouterState();
   const isAppRoute =
     routerState.location.pathname === "/" ||
     routerState.location.pathname.startsWith("/app-details");
   const isChatRoute = routerState.location.pathname === "/chat";
+  const isServicesRoute = routerState.location.pathname.startsWith("/services");
   const isSettingsRoute = routerState.location.pathname.startsWith("/settings");
 
-  let selectedItem: string | null = null;
-  if (hoverState === "start-hover:app") {
-    selectedItem = "Apps";
-  } else if (hoverState === "start-hover:chat") {
-    selectedItem = "Chat";
-  } else if (hoverState === "start-hover:settings") {
-    selectedItem = "Settings";
-  } else if (hoverState === "start-hover:library") {
-    selectedItem = "Library";
-  } else if (state === "expanded") {
+  // Determine which submenu to show - either clicked item or route-based
+  let selectedItem: ClickState = selectedMenuItem;
+  if (!selectedMenuItem && state === "expanded") {
     if (isAppRoute) {
       selectedItem = "Apps";
     } else if (isChatRoute) {
       selectedItem = "Chat";
+    } else if (isServicesRoute) {
+      selectedItem = "Services";
     } else if (isSettingsRoute) {
       selectedItem = "Settings";
     }
@@ -120,27 +130,19 @@ export function AppSidebar() {
   return (
     <Sidebar
       collapsible="icon"
-      onMouseLeave={() => {
-        if (!isDropdownOpen) {
-          setHoverState("clear-hover");
-        }
-      }}
     >
       <SidebarContent className="overflow-hidden">
         <div className="flex mt-8">
           {/* Left Column: Menu items */}
           <div className="">
-            <SidebarTrigger
-              onMouseEnter={() => {
-                setHoverState("clear-hover");
-              }}
-            />
-            <AppIcons onHoverChange={setHoverState} />
+            <SidebarTrigger />
+            <AppIcons onMenuItemClick={handleMenuItemClick} selectedItem={selectedMenuItem} />
           </div>
           {/* Right Column: Chat List Section */}
           <div className="w-[240px]">
             <AppList show={selectedItem === "Apps"} />
             <ChatList show={selectedItem === "Chat"} />
+            <ServicesList show={selectedItem === "Services"} />
             <SettingsList show={selectedItem === "Settings"} />
           </div>
         </div>
@@ -172,12 +174,15 @@ export function AppSidebar() {
 }
 
 function AppIcons({
-  onHoverChange,
+  onMenuItemClick,
+  selectedItem,
 }: {
-  onHoverChange: (state: HoverState) => void;
+  onMenuItemClick: (item: ClickState) => void;
+  selectedItem: ClickState;
 }) {
   const routerState = useRouterState();
   const pathname = routerState.location.pathname;
+  const navigate = useNavigate();
 
   return (
     // When collapsed: only show the main menu
@@ -203,16 +208,12 @@ function AppIcons({
                     className={`flex flex-col items-center gap-1 h-14 mb-2 rounded-2xl ${
                       isActive ? "bg-sidebar-accent" : ""
                     }`}
-                    onMouseEnter={() => {
-                      if (item.title === "Apps") {
-                        onHoverChange("start-hover:app");
-                      } else if (item.title === "Chat") {
-                        onHoverChange("start-hover:chat");
-                      } else if (item.title === "Settings") {
-                        onHoverChange("start-hover:settings");
-                      } else if (item.title === "Library") {
-                        onHoverChange("start-hover:library");
-                      }
+                    onClick={(e) => {
+                      e.preventDefault();
+                      // Navigate to the route
+                      navigate({ to: item.to });
+                      // Then show the submenu
+                      onMenuItemClick(item.title as ClickState);
                     }}
                   >
                     <div className="flex flex-col items-center gap-1">
