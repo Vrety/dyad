@@ -201,7 +201,7 @@ export const Rework_TIP: MessageConfig = {
   spans: [
     {
       type: "text",
-      content: "Rework have hundreds of services to help your business grow.",
+      content: "Rework have hundreds of services to help your business grow. ",
     },
     {
       type: "link",

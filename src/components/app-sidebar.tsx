@@ -1,4 +1,4 @@
-import {
+﻿import {
   Home,
   Inbox,
   Settings,
@@ -53,16 +53,16 @@ const items = [
     to: "/settings",
     icon: Settings,
   },
-  {
-    title: "Library",
-    to: "/library",
-    icon: BookOpen,
-  },
-  {
-    title: "Hub",
-    to: "/hub",
-    icon: Store,
-  },
+  //{
+  //  title: "Library",
+  //  to: "/library",
+  //  icon: BookOpen,
+  //},
+  //{
+  //  title: "Hub",
+  //  to: "/hub",
+  //  icon: Store,
+  //},
 ];
 
 // Click state types
@@ -132,7 +132,7 @@ export function AppSidebar() {
       collapsible="icon"
     >
       <SidebarContent className="overflow-hidden">
-        <div className="flex mt-8">
+        <div className="mt-8 flex">
           {/* Left Column: Menu items */}
           <div className="">
             <SidebarTrigger />
@@ -154,7 +154,7 @@ export function AppSidebar() {
             {/* Change button to open dialog instead of linking */}
             <SidebarMenuButton
               size="sm"
-              className="font-medium w-14 flex flex-col items-center gap-1 h-14 mb-2 rounded-2xl"
+              className="mb-2 flex h-14 w-14 flex-col items-center gap-1 rounded-2xl font-medium"
               onClick={() => setIsHelpDialogOpen(true)} // Open dialog on click
             >
               <HelpCircle className="h-5 w-5" />
@@ -201,7 +201,7 @@ function AppIcons({
                 <SidebarMenuButton
                   asChild
                   size="sm"
-                  className="font-medium w-14"
+                  className="w-14 font-medium"
                 >
                   <Link
                     to={item.to}

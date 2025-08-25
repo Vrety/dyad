@@ -221,6 +221,7 @@ export const MessagesList = forwardRef<HTMLDivElement, MessagesListProps>(
           </div>
         )}
 
+        {/* PromoMessage disabled
         {isStreaming &&
           !settings?.enableDyadPro &&
           !userBudget &&
@@ -228,7 +229,7 @@ export const MessagesList = forwardRef<HTMLDivElement, MessagesListProps>(
             <PromoMessage
               seed={messages.length * (appId ?? 1) * (selectedChatId ?? 1)}
             />
-          )}
+          )} */}
         <div ref={messagesEndRef} />
       </div>
     );

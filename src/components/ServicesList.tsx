@@ -1,4 +1,4 @@
-import { ScrollArea } from "@/components/ui/scroll-area";
+﻿import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
 import { Database, Settings, ExternalLink, ChevronRight, ChevronDown } from "lucide-react";
 import { useNavigate } from "@tanstack/react-router";
@@ -69,10 +69,10 @@ export function ServicesList({ show }: { show: boolean }) {
   }
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex h-full flex-col">
       <div className="flex-shrink-0 p-4">
         <h2 className="text-lg font-semibold tracking-tight">Services</h2>
-        <p className="text-sm text-muted-foreground">
+        <p className="text-muted-foreground text-sm">
           Rework.com business workflows
         </p>
       </div>
@@ -80,11 +80,11 @@ export function ServicesList({ show }: { show: boolean }) {
       <ScrollArea className="flex-grow">
         <div className="space-y-1 p-4 pt-0">
           {!isReworkConfigured ? (
-            <div className="text-center space-y-4 py-8">
-              <Database className="h-12 w-12 mx-auto text-muted-foreground/50" />
+            <div className="space-y-4 py-8 text-center">
+              <Database className="text-muted-foreground/50 mx-auto h-12 w-12" />
               <div className="space-y-2">
                 <h3 className="font-medium">No Services Connected</h3>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   Connect to Rework.com to access business workflow services
                 </p>
               </div>
@@ -121,7 +121,7 @@ export function ServicesList({ show }: { show: boolean }) {
 
               {/* Services Submenu */}
               {isServicesExpanded && (
-                <div className="space-y-1 ml-4 border-l border-sidebar-border pl-3">
+                <div className="border-sidebar-border ml-4 space-y-1 border-l pl-3">
                   {/* All Services Item */}
                   <button
                     onClick={handleAllServicesClick}
@@ -147,7 +147,7 @@ export function ServicesList({ show }: { show: boolean }) {
                           : "hover:bg-sidebar-accent text-muted-foreground"
                       )}
                     >
-                      <div className="break-words leading-relaxed">
+                      <div className="leading-relaxed break-words">
                         {service.name}
                       </div>
                     </button>
@@ -156,15 +156,15 @@ export function ServicesList({ show }: { show: boolean }) {
               )}
 
               {/* Settings Link */}
-              <div className="pt-4 mt-4 border-t">
+              <div className="mt-4 border-t pt-4">
                 <Button
                   variant="link"
                   size="sm"
                   onClick={openReworkSettings}
-                  className="w-full text-xs text-muted-foreground h-auto p-2"
+                  className="text-muted-foreground h-auto w-full p-2 text-xs"
                 >
-                  <Settings className="h-3 w-3 mr-2" />
-                  Manage services in settings
+                  <Settings className="mr-2 h-3 w-3" />
+                  Manage services
                 </Button>
               </div>
             </div>

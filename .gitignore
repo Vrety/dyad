@@ -103,3 +103,4 @@ userData/
 .env.local
 CLAUDE.md
 .vs/
+.husky/pre-commit
